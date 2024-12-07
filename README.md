@@ -1,18 +1,30 @@
-# grafana服务
+# SysuMatrixDL 的工作节点
 
-该服务需要在worker节点上运行，包含open-gauss和grafana两个容器
-
-第一次使用，请运行`pip install -r requirements.txt`
-
-启动指令
+在 root 权限下运行启动脚本
 
 ```bash
-./start.sh
+sudo bash start.sh
 ```
 
-## 数据库细节
+注意 controler 节点需要能够 ssh 公钥连接所有的 worker 节点
 
-open-gauss数据库基于 https://github.com/xy3xy3/openeuler-openGauss-docker-forstudy 构建
+`bind_port.py` 需要放在 Worker 节点的 `/root/.matrixdl` 文件夹下，将由 Control 节点调用
+
+
+## caddy 服务
+
+
+
+## grafana 服务
+
+该服务需要在 worker 节点上运行，包含 open-gauss 和 grafana 两个容器
+
+开发中，请运行 `pip install -r requirements.txt`
+
+
+## 数据库
+
+open-gauss 数据库基于 https://github.com/xy3xy3/openeuler-openGauss-docker-forstudy 构建
 
 获取数据库初始数据卷
 
@@ -23,6 +35,12 @@ sudo docker stop temp-opengauss
 sudo docker rm temp-opengauss
 sudo chmod -R 700 ./dbdata
 sudo chown -R 1000:1000 ./dbdata
+```
+
+打包保存数据卷配置
+
+```bash
+tar -zcvf dbdata.tar.gz ./dbdata
 ```
 
 数据库初始化建表语句
@@ -59,10 +77,4 @@ CREATE TABLE netio (
     send_rate float(30),
     recv_rate float(30)
 );
-```
-
-打包保存数据卷配置
-
-```bash
-tar -zcvf dbdata.tar.gz ./dbdata
 ```

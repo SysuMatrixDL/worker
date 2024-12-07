@@ -1,8 +1,8 @@
 version: '3'
 services:
   open-gauss:
-    image: xy3666/opengauss:6.0.0-openEuler
-    container_name: open-gauss
+    image: xy3666/opengauss:latest
+    container_name: matrixdl-opengauss
     ports:
       - "5432:5432"
     volumes:
@@ -10,10 +10,8 @@ services:
     networks:
       - og-network
   grafana:
-    build:
-      context: ./grafana
-      dockerfile: dockerfile
-    container_name: gf-grafana
+    image: ghcr.io/sysumatrixdl/grafana:latest
+    container_name: matrixdl-grafana
     ports:
       - "3000:3000"
     environment:
